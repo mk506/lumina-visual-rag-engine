@@ -146,7 +146,10 @@ export async function getVideoSegments(videoId: string): Promise<VideoSegment[]>
     throw new Error(`Failed to fetch segments: ${error.message}`);
   }
 
-  return data || [];
+  return (data || []).map(seg => ({
+    ...seg,
+    detected_objects: (seg.detected_objects as Record<string, number>) || {},
+  }));
 }
 
 // Search videos

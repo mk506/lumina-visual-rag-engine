@@ -136,7 +136,7 @@ Only include segments with relevance_score > 0.3. Only respond with the JSON arr
         const text = `${seg.description || ""} ${seg.transcript || ""} ${seg.ocr_text || ""}`.toLowerCase();
         const queryLower = query.toLowerCase();
         const words = queryLower.split(/\s+/);
-        const matches = words.filter(w => text.includes(w)).length;
+        const matches = words.filter((w: string) => text.includes(w)).length;
         return {
           index: idx,
           relevance_score: matches / words.length,
@@ -186,7 +186,7 @@ Only include segments with relevance_score > 0.3. Only respond with the JSON arr
   } catch (error) {
     console.error("Error in search-videos:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
